@@ -1,0 +1,27 @@
+# Enable all checks (inc. optional)
+enable=all
+
+# Fix issue with rule SC1090: "ShellCheck can't follow non-constant source. Use a directive to specify location."
+# https://www.shellcheck.net/wiki/SC1090
+external-sources=true
+source=config.sh
+
+# Disable rule SC2034: "Variable appears unused. Verify use (or export if used externally)."
+# https://www.shellcheck.net/wiki/SC2034
+disable=SC2034
+
+# Disable rule SC2086: "Double quote to prevent globbing and word splitting."
+# https://www.shellcheck.net/wiki/SC2086
+disable=SC2086
+
+# Disable rule SC2155: "Declare and assign separately to avoid masking return values."
+# https://www.shellcheck.net/wiki/SC2155
+disable=SC2155
+
+# Disable rule SC2248: "Prefer double quoting even when variables don't contain special characters."
+# https://www.shellcheck.net/wiki/SC2248
+disable=SC2248
+
+# Disable rule SC312: "Consider invoking this command separately to avoid masking its return value (or use '|| true' to ignore)."
+# https://www.shellcheck.net/wiki/SC2312
+disable=SC2312

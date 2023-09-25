@@ -1,0 +1,9 @@
+---
+# line-length
+MD013: false
+
+# no-inline-html
+MD033: false
+
+# first-line-heading/first-line-h1
+MD041: false
