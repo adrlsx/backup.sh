@@ -1,44 +1,44 @@
 #!/bin/bash
 # Best practices - https://bertvv.github.io/cheat-sheets/Bash.html
 
-set -o errexit	# Exit when a command fails, add || true to commands that are allowed to fail
-set -o pipefail	# Do not hide errors within pipes
-set -o nounset	# Exit if an attempt is made to expand an unset variable
+set -o errexit    # Exit when a command fails, add || true to commands that are allowed to fail
+set -o pipefail    # Do not hide errors within pipes
+set -o nounset    # Exit if an attempt is made to expand an unset variable
 
 text_format() {
-	# Avoid hardcoded sequences thanks to tput: https://askubuntu.com/a/1167054 and https://stackoverflow.com/a/2924755
-	readonly t_reset="$(tput sgr0 2>/dev/null || true)"
-	readonly t_red="$(tput setaf 1 2>/dev/null || true)"
+    # Avoid hardcoded sequences thanks to tput: https://askubuntu.com/a/1167054 and https://stackoverflow.com/a/2924755
+    readonly t_reset="$(tput sgr0 2>/dev/null || true)"
+    readonly t_red="$(tput setaf 1 2>/dev/null || true)"
     readonly t_green="$(tput setaf 2 2>/dev/null || true)"
     readonly t_yellow="$(tput setaf 3 2>/dev/null || true)"
 }
 
 echoerr() {
-	# printf usage for more reliability and to avoid swallowing arguments: https://stackoverflow.com/a/2990533
-	# Combining with stderr redirection: https://stackoverflow.com/a/62235327
-	# Instanciate variables with the desired display
-	>&2 printf "${t_red}ERROR: %s${t_reset}\n" "${*}"
+    # printf usage for more reliability and to avoid swallowing arguments: https://stackoverflow.com/a/2990533
+    # Combining with stderr redirection: https://stackoverflow.com/a/62235327
+    # Instanciate variables with the desired display
+    >&2 printf "${t_red}ERROR: %s${t_reset}\n" "${*}"
 }
 
 echosuccess() {
-	# printf usage for more reliability and to avoid swallowing arguments: https://stackoverflow.com/a/2990533
-	# Combining with stderr redirection: https://stackoverflow.com/a/62235327
-	# Instanciate variables with the desired display
-	>&2 printf "${t_green}SUCCESS: %s${t_reset}\n" "${*}"
+    # printf usage for more reliability and to avoid swallowing arguments: https://stackoverflow.com/a/2990533
+    # Combining with stderr redirection: https://stackoverflow.com/a/62235327
+    # Instanciate variables with the desired display
+    >&2 printf "${t_green}SUCCESS: %s${t_reset}\n" "${*}"
 }
 
 echowarning() {
-	# printf usage for more reliability and to avoid swallowing arguments: https://stackoverflow.com/a/2990533
-	# Combining with stderr redirection: https://stackoverflow.com/a/62235327
-	# Instanciate variables with the desired display
-	>&2 printf "${t_yellow}WARNING: %s${t_reset}\n" "${*}"
+    # printf usage for more reliability and to avoid swallowing arguments: https://stackoverflow.com/a/2990533
+    # Combining with stderr redirection: https://stackoverflow.com/a/62235327
+    # Instanciate variables with the desired display
+    >&2 printf "${t_yellow}WARNING: %s${t_reset}\n" "${*}"
 }
 
 welcome() {
-	# ASCII art generator
-	# https://www.kammerl.de/ascii/AsciiSignature.php
-	# Font: rounded, colorized with 'lolcat --force'
-	printf '
+    # ASCII art generator
+    # https://www.kammerl.de/ascii/AsciiSignature.php
+    # Font: rounded, colorized with 'lolcat --force'
+    printf '
 [38;2;43;252;88m [39m[38;2;46;253;84m_[39m[38;2;49;253;80m [39m[38;2;52;254;76m [39m[38;2;56;254;73m [39m[38;2;59;254;69m [39m[38;2;63;254;65m [39m[38;2;67;254;61m [39m[38;2;70;254;58m [39m[38;2;74;254;54m [39m[38;2;78;254;51m [39m[38;2;82;253;48m [39m[38;2;86;252;44m [39m[38;2;90;251;41m [39m[38;2;94;250;38m [39m[38;2;98;249;35m [39m[38;2;102;248;32m [39m[38;2;107;246;30m [39m[38;2;111;245;27m [39m[38;2;115;243;24m_[39m[38;2;119;241;22m [39m[38;2;123;240;20m [39m[38;2;128;237;17m [39m[38;2;132;235;15m [39m[38;2;136;233;13m [39m[38;2;140;231;12m [39m[38;2;144;228;10m [39m[38;2;149;225;8m [39m[38;2;153;223;7m [39m[38;2;157;220;6m [39m[38;2;161;217;5m [39m[38;2;165;214;4m [39m[38;2;169;211;3m [39m[38;2;173;207;2m [39m[38;2;177;204;1m [39m[38;2;181;201;1m [39m[38;2;185;197;1m [39m[38;2;188;194;1m [39m[38;2;192;190;1m [39m[38;2;196;186;1m [39m[38;2;199;182;1m [39m[38;2;203;179;1m [39m[38;2;206;175;2m [39m[38;2;209;171;2m_[39m[38;2;213;167;3m [39m[38;2;216;163;4m [39m[38;2;219;159;5m [39m[38;2;222;154;7m [39m[38;2;224;150;8m [39m[38;2;227;146;9m[39m
 [38;2;52;254;76m|[39m[38;2;56;254;73m [39m[38;2;59;254;69m|[39m[38;2;63;254;65m [39m[38;2;67;254;61m [39m[38;2;70;254;58m [39m[38;2;74;254;54m [39m[38;2;78;254;51m [39m[38;2;82;253;48m [39m[38;2;86;252;44m [39m[38;2;90;251;41m [39m[38;2;94;250;38m [39m[38;2;98;249;35m [39m[38;2;102;248;32m [39m[38;2;107;246;30m [39m[38;2;111;245;27m [39m[38;2;115;243;24m [39m[38;2;119;241;22m [39m[38;2;123;240;20m|[39m[38;2;128;237;17m [39m[38;2;132;235;15m|[39m[38;2;136;233;13m [39m[38;2;140;231;12m [39m[38;2;144;228;10m [39m[38;2;149;225;8m [39m[38;2;153;223;7m [39m[38;2;157;220;6m [39m[38;2;161;217;5m [39m[38;2;165;214;4m [39m[38;2;169;211;3m [39m[38;2;173;207;2m [39m[38;2;177;204;1m [39m[38;2;181;201;1m [39m[38;2;185;197;1m [39m[38;2;188;194;1m [39m[38;2;192;190;1m [39m[38;2;196;186;1m [39m[38;2;199;182;1m [39m[38;2;203;179;1m [39m[38;2;206;175;2m [39m[38;2;209;171;2m [39m[38;2;213;167;3m [39m[38;2;216;163;4m|[39m[38;2;219;159;5m [39m[38;2;222;154;7m|[39m[38;2;224;150;8m [39m[38;2;227;146;9m [39m[38;2;230;142;11m [39m[38;2;232;138;13m [39m[38;2;234;133;15m[39m
 [38;2;63;254;65m|[39m[38;2;67;254;61m [39m[38;2;70;254;58m|[39m[38;2;74;254;54m_[39m[38;2;78;254;51m_[39m[38;2;82;253;48m [39m[38;2;86;252;44m [39m[38;2;90;251;41m_[39m[38;2;94;250;38m_[39m[38;2;98;249;35m_[39m[38;2;102;248;32m_[39m[38;2;107;246;30m_[39m[38;2;111;245;27m [39m[38;2;115;243;24m [39m[38;2;119;241;22m_[39m[38;2;123;240;20m_[39m[38;2;128;237;17m_[39m[38;2;132;235;15m_[39m[38;2;136;233;13m|[39m[38;2;140;231;12m [39m[38;2;144;228;10m|[39m[38;2;149;225;8m [39m[38;2;153;223;7m [39m[38;2;157;220;6m_[39m[38;2;161;217;5m [39m[38;2;165;214;4m_[39m[38;2;169;211;3m [39m[38;2;173;207;2m [39m[38;2;177;204;1m [39m[38;2;181;201;1m_[39m[38;2;185;197;1m [39m[38;2;188;194;1m_[39m[38;2;192;190;1m_[39m[38;2;196;186;1m_[39m[38;2;199;182;1m_[39m[38;2;203;179;1m [39m[38;2;206;175;2m [39m[38;2;209;171;2m [39m[38;2;213;167;3m [39m[38;2;216;163;4m_[39m[38;2;219;159;5m_[39m[38;2;222;154;7m_[39m[38;2;224;150;8m|[39m[38;2;227;146;9m [39m[38;2;230;142;11m|[39m[38;2;232;138;13m_[39m[38;2;234;133;15m_[39m[38;2;237;129;17m [39m[38;2;239;125;19m [39m[38;2;241;121;21m[39m
@@ -48,9 +48,9 @@ welcome() {
 [38;2;111;245;27m [39m[38;2;115;243;24m [39m[38;2;119;241;22m [39m[38;2;123;240;20m [39m[38;2;128;237;17m [39m[38;2;132;235;15m [39m[38;2;136;233;13m [39m[38;2;140;231;12m [39m[38;2;144;228;10m [39m[38;2;149;225;8m [39m[38;2;153;223;7m [39m[38;2;157;220;6m [39m[38;2;161;217;5m [39m[38;2;165;214;4m [39m[38;2;169;211;3m [39m[38;2;173;207;2m [39m[38;2;177;204;1m [39m[38;2;181;201;1m [39m[38;2;185;197;1m [39m[38;2;188;194;1m [39m[38;2;192;190;1m [39m[38;2;196;186;1m [39m[38;2;199;182;1m [39m[38;2;203;179;1m [39m[38;2;206;175;2m [39m[38;2;209;171;2m [39m[38;2;213;167;3m [39m[38;2;216;163;4m [39m[38;2;219;159;5m [39m[38;2;222;154;7m [39m[38;2;224;150;8m|[39m[38;2;227;146;9m_[39m[38;2;230;142;11m|[39m[38;2;232;138;13m [39m[38;2;234;133;15m [39m[38;2;237;129;17m [39m[38;2;239;125;19m [39m[38;2;241;121;21m [39m[38;2;243;116;23m [39m[38;2;244;112;26m [39m[38;2;246;108;29m [39m[38;2;247;104;31m [39m[38;2;249;100;34m [39m[38;2;250;96;37m [39m[38;2;251;92;40m [39m[38;2;252;88;43m [39m[38;2;253;84;46m [39m[38;2;253;80;50m [39m[38;2;254;76;53m [39m[38;2;254;72;56m[39m
 '
     echo
-	echo 'Backup bash script to automate the creation of encrypted 7z archives.'
-	echo 'Version: v0.1.0'
-	echo
+    echo 'Backup bash script to automate the creation of encrypted 7z archives.'
+    echo 'Version: v0.1.0'
+    echo
 }
 
 sourcing() {
