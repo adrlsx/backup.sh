@@ -49,8 +49,7 @@ bash backup.sh
 
 - [Bash](https://tiswww.case.edu/php/chet/bash/bashtop.html) - Bash is an sh-compatible command language interpreter that executes commands read from the standard input or from a file. Bash also incorporates useful features from the Korn and C shells (ksh and csh).
 
-- [p7zip-full](http://p7zip.sourceforge.net/) - p7zip is the Unix command-line port of 7-Zip, a file archiver that
- handles the 7z format which features very high compression ratios. p7zip-full provides utilities to pack and unpack 7z archives within a shell or using a GUI (such as Ark, File Roller or Nautilus).
+- [7-Zip 23.01](https://7-zip.org/) - 7-Zip is a file archiver with a high compression ratio. 7-Zip is free software with open source and most of the code is under the GNU LGPL license. It supports strong AES-256 encryption in 7z and ZIP formats. This script uses 7zzs, the standalone console version of 7-Zip (version compiled with static system library linking).
 
 ## Contributing
 
