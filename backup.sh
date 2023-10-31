@@ -2,7 +2,7 @@
 # Best practices - https://bertvv.github.io/cheat-sheets/Bash.html
 
 set -o errexit    # Exit when a command fails, add || true to commands that are allowed to fail
-set -o pipefail    # Do not hide errors within pipes
+set -o pipefail   # Do not hide errors within pipes
 set -o nounset    # Exit if an attempt is made to expand an unset variable
 
 text_format() {
@@ -51,21 +51,21 @@ welcome() {
 
 sourcing() {
     # Config filename
-    local -r CONFIG_FILE="$(dirname ${0})/config.sh"
+    local -r config_file="$(dirname ${0})/config.sh"
 
     # Verify the config file exists and is readable
-    if [[ -r "${CONFIG_FILE}" ]]; then
+    if [[ -r "${config_file}" ]]; then
         # Source the config file to access the required variables
-        source "${CONFIG_FILE}"
+        source "${config_file}"
 
         # Verify the required variables are all set
         if [[ -z "${OUTPUT_DIRECTORY}" ]] || [[ -z "${BACKUP_NAME}" ]] || [[ -z "${BACKUP_TARGET}" ]]; then
-            echoerr "One of the required variable in '${CONFIG_FILE}' is not set. Exiting..."
+            echoerr "One of the required variable in '${config_file}' is not set. Exiting..."
             echo
             exit 1
         fi
     else
-        echoerr "Config file '${CONFIG_FILE}' does not exist or is not readable. Exiting..."
+        echoerr "Config file '${config_file}' does not exist or is not readable. Exiting..."
         echo
         exit 1
     fi
