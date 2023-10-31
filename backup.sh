@@ -71,32 +71,46 @@ sourcing() {
     fi
 }
 
+binaries_installation() {
+    # Define 7-zip binary target for installation
+    local -r binary_version="2301"
+    local -r binary_url="https://7-zip.org/a/7z${binary_version}-linux-x64.tar.xz"
+    local -r binary_temp_path="/tmp/7z${binary_version}.tar.xz"
+
+    # Create folder for 7-zip binaries
+    mkdir -p "${binary_path}"
+
+    # 7-zip installation
+    echo "Installing 7-zip from source to ${binary_path}..."
+    # Download 7-zip archive in /tmp
+    curl --silent "${binary_url}" --output "${binary_temp_path}"
+    # Extract binaries from 7-zip archive to ~/.local/bin/
+    tar --extract --lzma --file "${binary_temp_path}" --directory "${binary_path}" 7zz 7zzs
+    # Remove 7-zip archive from /tmp
+    rm -f "${binary_temp_path}"
+
+    # Exit if 7zzs install was not successfull
+    if [[ -z "$(7zzs)" ]] && [[ -z "$(${binary_path}/7zzs)" ]]; then
+        echoerr "Installation of 7-zip from source failed. Exiting..."
+        echo
+        exit 1
+    fi
+}
+
 verification() {
     # Source the config file to get access to the required variables
     sourcing
      
     # Create the output directory
     mkdir -p "$(realpath ${OUTPUT_DIRECTORY})"
-    
-    # Verify if 7za is installed
-    if [[ -z "$(7za)" ]]; then
-        # Error message when 7za is not available
-        echowarning "Command '7za' is not available. Trying to install 'p7zip-full' through apt-get..."
-        
-        # Update apt-get package index files from their sources
-        echo "Updating apt-get package index files from their sources..."
-        sudo apt-get -qq update
 
-        # p7zip-full
-        echo "Installing p7zip-full through apt-get..."
-        sudo DEBIAN_FRONTEND=noninteractive apt-get -qq --yes install p7zip-full
+    # Verify if 7zzs is installed
+    if [[ -z "$(7zzs)" ]] && [[ -z "$(${binary_path}/7zzs)" ]]; then
+        # Error message when 7zzs is not available
+        echowarning "Command '7zzs' is not available. Trying to install 7-zip from source..."
 
-        # Exit if 7za install was not successfull
-        if [[ -z "$(7za)" ]]; then
-            echoerr "Installation of package 'p7zip-full' through apt-get failed. Exiting..."
-            echo
-            exit 1
-        fi
+        # Install 7-zip from source
+        binaries_installation
     fi
     
     # Variable to count the number of wrong targets
@@ -131,7 +145,12 @@ verification() {
 }
 
 backup() {
-    # Verifications before backup
+    # Define path for 7zip binaries
+    # verification() and binaries_installation() functions cannot run if this variable is not well defined
+    local -r binary_path="$(realpath ${HOME}/.local/bin)"
+
+    # verification() function sources variables from config file, checks them and test the validity of each target
+    # Hence, backup is not possible if this function has not been run successfully
     verification
 
     # Saves current date
@@ -150,11 +169,7 @@ backup() {
     local -r archive_name="${backup_file}-${current_date}.7z"
 
     # Backup everything in an encrypted 7z archive, word spitting is wanted for the TARGET_LIST variable
-    7za a -t7z -mhe=on -p "${archive_name}" ${TARGET_LIST} &
-
-    # Wait for the interactive password prompt validation and the end of the compression
-    wait
-    echo
+    "${binary_path}/7zzs" a -t7z -mhe=on -p "${archive_name}" ${TARGET_LIST}
 
     # Verify if the encrypted 7z archive was successfully created
     if [[ -r "${archive_name}" ]]; then
