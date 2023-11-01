@@ -47,9 +47,9 @@ bash backup.sh
 
 ## Built with
 
-- [Bash](https://tiswww.case.edu/php/chet/bash/bashtop.html) - Bash is an sh-compatible command language interpreter that executes commands read from the standard input or from a file. Bash also incorporates useful features from the Korn and C shells (ksh and csh).
+- [Bash 5.2](https://tiswww.case.edu/php/chet/bash/bashtop.html) - Bash is an sh-compatible command language interpreter that executes commands read from the standard input or from a file. Bash is free software, distributed under the terms of the GPLv3 license.
 
-- [7-Zip 23.01](https://7-zip.org/) - 7-Zip is a file archiver with a high compression ratio. 7-Zip is free software with open source and most of the code is under the GNU LGPL license. It supports strong AES-256 encryption in 7z and ZIP formats. This script uses 7zzs, the standalone console version of 7-Zip (version compiled with static system library linking).
+- [7-Zip 23.01](https://7-zip.org/) - 7-Zip is a file archiver with a high compression ratio. 7-Zip is free and open source software and most of the code is under the GNU LGPL license. It supports strong AES-256 encryption in 7z and ZIP formats. This script uses 7zzs, the standalone console version of 7-Zip (version compiled with static system library linking).
 
 ## Contributing
 
