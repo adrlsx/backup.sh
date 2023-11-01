@@ -72,26 +72,26 @@ sourcing() {
 }
 
 binaries_installation() {
-    # Define 7-zip binary target for installation
+    # Define 7-Zip binary target for installation
     local -r binary_version="2301"
     local -r binary_url="https://7-zip.org/a/7z${binary_version}-linux-x64.tar.xz"
     local -r binary_temp_path="/tmp/7z${binary_version}.tar.xz"
 
-    # Create folder for 7-zip binaries
+    # Create folder for 7-Zip binaries
     mkdir -p "${binary_path}"
 
-    # 7-zip installation
-    echo "Installing 7-zip from source to ${binary_path}..."
-    # Download 7-zip archive in /tmp
+    # 7-Zip installation
+    echo "Installing 7-Zip from source to ${binary_path}..."
+    # Download 7-Zip archive in /tmp
     curl --silent "${binary_url}" --output "${binary_temp_path}"
-    # Extract binaries from 7-zip archive to ~/.local/bin/
+    # Extract binaries from 7-Zip archive to ~/.local/bin/
     tar --extract --lzma --file "${binary_temp_path}" --directory "${binary_path}" 7zz 7zzs
-    # Remove 7-zip archive from /tmp
+    # Remove 7-Zip archive from /tmp
     rm -f "${binary_temp_path}"
 
     # Exit if 7zzs install was not successfull
     if [[ -z "$(7zzs)" ]] && [[ -z "$(${binary_path}/7zzs)" ]]; then
-        echoerr "Installation of 7-zip from source failed. Exiting..."
+        echoerr "Installation of 7-Zip from source failed. Exiting..."
         echo
         exit 1
     fi
@@ -107,9 +107,9 @@ verification() {
     # Verify if 7zzs is installed
     if [[ -z "$(7zzs)" ]] && [[ -z "$(${binary_path}/7zzs)" ]]; then
         # Error message when 7zzs is not available
-        echowarning "Command '7zzs' is not available. Trying to install 7-zip from source..."
+        echowarning "Command '7zzs' is not available. Trying to install 7-Zip from source..."
 
-        # Install 7-zip from source
+        # Install 7-Zip from source
         binaries_installation
     fi
     
