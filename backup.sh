@@ -153,7 +153,21 @@ backup() {
     # Hence, backup is not possible if this function has not been run successfully
     verification
 
-    # Saves current date
+    # Ask the user for the archive password
+    local archive_password verification_password
+    read -s -r -p "Enter archive password: " archive_password
+    echo
+    read -s -r -p "Verify password: " verification_password
+    echo
+
+    # Check if passwords match
+    if [[ "${archive_password}" != "${verification_password}" ]]; then
+        echoerr "Passwords do not match. Exiting..."
+        echo
+        exit 1
+    fi
+
+    # Save current date
     local current_date="$(date --iso-8601='date')"
     
     # File naming
@@ -169,7 +183,7 @@ backup() {
     local -r archive_name="${backup_file}-${current_date}.7z"
 
     # Backup everything in an encrypted 7z archive, word spitting is wanted for the TARGET_LIST variable
-    "${binary_path}/7zzs" a -t7z -mhe=on -p "${archive_name}" ${TARGET_LIST}
+    "${binary_path}/7zzs" a -t7z -mhe=on -p"${archive_password}" "${archive_name}" ${TARGET_LIST}
 
     # Verify if the encrypted 7z archive was successfully created
     if [[ -r "${archive_name}" ]]; then
