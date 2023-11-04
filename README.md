@@ -29,6 +29,10 @@
 curl -O https://raw.githubusercontent.com/adrlsx/backup.sh/main/backup.sh
 ```
 
+ If the *7zzs* binary is not found in PATH, the 7-Zip console version for 64-bit Linux x86-64 will be downloaded from the official [7-Zip](https://7-zip.org/) website. *7zz* and *7zzs* binaries will then be extracted to **~/.local/bin** and the downloaded archive will be deleted.
+
+ This script only uses *7zzs*, the standalone console version of 7-Zip (version compiled with static system library linking).
+
 ## Usage
 
 Make sure the configuration file [config.sh](config.sh) is located in the same directory as the script [backup.sh](backup.sh).
@@ -45,11 +49,13 @@ Once the variables have been set, you can simply execute the backup script:
 bash backup.sh
 ```
 
+Important notice: **symlinks will be followed when creating the archive**. Depending on how your data is organized, this can potentially create duplicate folders in the final archive. Exclude or delete symlinks before backing up to avoid unnecessarily increasing the size of the backup archive.
+
 ## Built with
 
 - [Bash 5.2](https://tiswww.case.edu/php/chet/bash/bashtop.html) - Bash is an sh-compatible command language interpreter that executes commands read from the standard input or from a file. Bash is free software, distributed under the terms of the GPLv3 license.
 
-- [7-Zip 23.01](https://7-zip.org/) - 7-Zip is a file archiver with a high compression ratio. 7-Zip is free and open source software and most of the code is under the GNU LGPL license. It supports strong AES-256 encryption in 7z and ZIP formats. This script uses 7zzs, the standalone console version of 7-Zip (version compiled with static system library linking).
+- [7-Zip 23.01](https://7-zip.org/) - 7-Zip is a file archiver with a high compression ratio. 7-Zip is free and open source software and most of the code is under the GNU LGPL license. It supports strong AES-256 encryption in 7z and ZIP formats.
 
 ## Contributing
 
