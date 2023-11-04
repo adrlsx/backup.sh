@@ -49,7 +49,7 @@ Once the variables have been set, you can simply execute the backup script:
 bash backup.sh
 ```
 
-Important notice: **symlinks will be followed when creating the archive**. Depending on how your data is organized, this can potentially create duplicate folders in the final archive. Exclude or delete symlinks before backing up to avoid unnecessarily increasing the size of the backup archive.
+Important notice: to avoid creating duplicate folders and unnecessarily increasing the size of the backup archive, **symlinks are not followed and are stored as links**.
 
 ## Built with
 
