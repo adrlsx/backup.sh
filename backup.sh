@@ -182,7 +182,7 @@ backup() {
     local -r archive_name="${backup_file}-${current_date}.7z"
 
     # Backup everything in an encrypted 7z archive, word spitting is wanted for the TARGET_LIST variable
-    "${binary_path}/7zzs" a -t7z -mhe=on -p"${archive_password}" "${archive_name}" ${TARGET_LIST}
+    "${binary_path}/7zzs" a -t7z -mhe=on -snl -ssp -stl -p"${archive_password}" "${archive_name}" ${TARGET_LIST}
 
     # Verify if the encrypted 7z archive was successfully created
     if [[ -r "${archive_name}" ]]; then
