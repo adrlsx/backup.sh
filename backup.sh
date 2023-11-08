@@ -182,7 +182,16 @@ backup() {
     local -r archive_name="${backup_file}-${current_date}.7z"
 
     # Backup everything in an encrypted 7z archive, word spitting is wanted for the TARGET_LIST variable
-    "${binary_path}/7zzs" a -t7z -mhe=on -snl -ssp -p"${archive_password}" "${archive_name}" ${TARGET_LIST}
+    "${binary_path}/7zzs" a -t7z -snl -ssp -ssw -mx=9 -mhe=on -mtc=on -mta=on -p"${archive_password}" "${archive_name}" ${TARGET_LIST}
+    # -t7z : Specifies the type of archive.
+    # -snl : Store symbolic links as links.
+    # -ssp : Does not change last access time of source files while archiving.
+    # -ssw : Compresses files open for writing by another applications.
+    # -mx=9 : Sets level of compression to the highest, ultra compressing.
+    # -mhe=on : Enables archive header encryption.
+    # -mtc=on : Stores creation timestamps for files.
+    # -mta=on : Stores last access timestamps for files.
+    # -p : Specifies password.
 
     # Verify if the encrypted 7z archive was successfully created
     if [[ -r "${archive_name}" ]]; then
