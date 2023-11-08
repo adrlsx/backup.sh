@@ -26,7 +26,7 @@
 ## Installation
 
 ```sh
-curl -O https://raw.githubusercontent.com/adrlsx/backup.sh/main/backup.sh
+curl --remote-name https://raw.githubusercontent.com/adrlsx/backup.sh/main/backup.sh
 ```
 
  If the *7zzs* binary is not found in PATH, the 7-Zip console version for 64-bit Linux x86-64 will be downloaded from the official [7-Zip](https://7-zip.org/) website. *7zz* and *7zzs* binaries will then be extracted to **~/.local/bin** and the downloaded archive will be deleted.
@@ -49,7 +49,23 @@ Once the variables have been set, you can simply execute the backup script:
 bash backup.sh
 ```
 
-Important notice: to avoid creating duplicate folders and unnecessarily increasing the size of the backup archive, **symlinks are not followed and are stored as links**.
+## Configuration
+
+To avoid creating duplicate folders and unnecessarily increasing the size of the backup archive, **symlinks are not followed and are stored as links**.
+
+Here is a summary of the arguments passed to the *7zzs* executable when creating the encrypted archive:
+
+| Argument | Description |
+|---|---|
+| -t7z | Specifies the type of archive. |
+| -snl | Store symbolic links as links. |
+| -ssp | Does not change last access time of source files while archiving. |
+| -ssw | Compresses files open for writing by another applications. |
+| -mx=9 | Sets level of compression to the highest, ultra compressing. |
+| -mhe=on | Enables archive header encryption. |
+| -mtc=on | Stores creation timestamps for files. |
+| -mta=on | Stores last access timestamps for files. |
+| -p | Specifies password. |
 
 ## Built with
 
